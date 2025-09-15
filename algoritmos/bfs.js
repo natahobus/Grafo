@@ -19,3 +19,4 @@ function bfs(grafo, inicio, objetivo) {
 }
 
 module.exports = bfs;
+// Exporta a função para ser usada em outros arquivos
