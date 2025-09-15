@@ -35,3 +35,4 @@ function dijkstra(grafo, inicio, objetivo) {
 }
 
 module.exports = dijkstra;
+// Exporta a função para ser usada em outros arquivos 
