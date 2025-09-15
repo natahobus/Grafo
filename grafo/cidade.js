@@ -7,3 +7,4 @@ const grafo = {
 };
 
 module.exports = grafo;
+// Exporta o grafo para ser usado em outros arquivos
