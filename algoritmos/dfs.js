@@ -14,3 +14,4 @@ function dfs(grafo, inicio, objetivo, visitados = new Set(), caminho = []) {
 }
 
 module.exports = dfs;
+// Exporta a função para ser usada em outros arquivos
