@@ -89,42 +89,41 @@ print(f"Caminho: {caminho}, Custo: {custo}, Cidades visitadas: {cidadesVisitadas
 
 
 def dijkstra(grafo, inicio, objetivo):
-  dist = {}
-  prev = {}
-  nao_visitados = set(grafo.keys())
+    dist = {}   # guarda o custo mínimo até cada cidade
+    prev = {}   # guarda o "pai" de cada cidade (para reconstruir caminho)
+    nao_visitados = set(grafo.keys())  # conjunto de cidades não visitadas
 
-  maior = float('inf')
+    maior = float('inf')  # valor "infinito" inicial
 
-  for no in grafo:
-      dist[no] = maior
-      prev[no] = None
-  dist[inicio] = 0
+    # inicializa distâncias
+    for no in grafo:
+        dist[no] = maior   # todas começam com infinito
+        prev[no] = None
+    dist[inicio] = 0       # cidade inicial = custo zero
 
-  while nao_visitados:
-      u = min(nao_visitados, key=lambda no: dist[no])
-      nao_visitados.remove(u)
+    # enquanto ainda tem cidade não visitada
+    while nao_visitados:
+        # pega a cidade com menor distância atual
+        u = min(nao_visitados, key=lambda no: dist[no])
+        nao_visitados.remove(u)
 
-      if dist[u] == maior:
-          break
+        if dist[u] == maior:  # se não tem caminho até u
+            break
+        if u == objetivo:     # se já chegou no destino, pode parar
+            break
 
-      if u == objetivo:
-          break
+        # para cada vizinho da cidade atual
+        for vizinho, custo in grafo.get(u, {}).items():
+            alt = dist[u] + custo  # novo custo passando por u
+            if alt < dist[vizinho]:  # se esse custo é menor
+                dist[vizinho] = alt  # atualiza distância mínima
+                prev[vizinho] = u    # registra o "pai"
 
-      for vizinho, custo in grafo.get(u, {}).items():
-          alt = dist[u] + custo
-          if alt < dist[vizinho]:
-              dist[vizinho] = alt
-              prev[vizinho] = u
+    # reconstrução do caminho
+    caminho = []
+    u = objetivo
+    while u is not None:    # volta pelo "prev" até o início
+        caminho.insert(0, u)
+        u = prev[u]
 
-  caminho = []
-  u = objetivo
-  while u is not None:
-      caminho.insert(0, u)
-      u = prev[u]
-
-  return {"caminho": caminho, "custo": dist[objetivo]}
-
-inicial = "Pelotas"
-destino = "Porto Alegre"
-resultado = dijkstra(GRAPH2, inicial, destino)
-print(f"Caminho: {resultado['caminho']} Custo: {resultado['custo']}")
+    return {"caminho": caminho, "custo": dist[objetivo]}
