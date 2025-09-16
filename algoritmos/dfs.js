@@ -1,5 +1,5 @@
 function dfs(grafo, inicio, objetivo, visitados = new Set(), caminho = []) {
-  caminho.push(inicio);
+    caminho.push(inicio);
   visitados.add(inicio);
 
   if (inicio === objetivo) return caminho;

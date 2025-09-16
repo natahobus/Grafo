@@ -21,7 +21,7 @@ GRAPH2 = {
 
 def depthFirstSearch(grafo, inicio, objetivo, custoTotal, visitados=None, caminho=None):
     if visitados is None:
-        visitados = set()
+        visitados = set()  # conjunto para marcar cidades já visitadas
     if caminho is None:
       caminho = []
 
@@ -38,7 +38,8 @@ def depthFirstSearch(grafo, inicio, objetivo, custoTotal, visitados=None, caminh
             if novoCaminho:
                 return novoCaminho, custoViagem
 
-    caminho.pop()
+    caminho.pop()   # remove o último nó (backtracking) se não deu certo
+
 
     return None, None
 
@@ -78,7 +79,7 @@ def bestFirst(grafo, inicio, objetivo):
                 novoCaminho.append(vizinho)
                 fila.append((novoCusto, vizinho, novoCaminho))
 
-    return None, 0, contador
+    return None, 0, contador 
 
 inicial = "Pelotas"
 destino = "Porto Alegre"
