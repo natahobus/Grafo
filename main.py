@@ -19,6 +19,33 @@ GRAPH2 = {
   "Alegrete": {"Pelotas": 100, "Porto Alegre": 120}
 }
 
+def depthFirstSearch(grafo, inicio, objetivo, custoTotal, visitados=None, caminho=None):
+    if visitados is None:
+        visitados = set()
+    if caminho is None:
+      caminho = []
+
+    caminho.append(inicio)
+    visitados.add(inicio)
+
+    if inicio == objetivo:
+        return caminho, custoTotal
+
+    for vizinho, custo in grafo.get(inicio, {}).items():
+        if vizinho not in visitados:
+            novoCaminho, custoViagem = depthFirstSearch(grafo, vizinho, objetivo, custoTotal + custo, visitados, caminho )
+
+            if novoCaminho:
+                return novoCaminho, custoViagem
+
+    caminho.pop()
+
+    return None, None
+
+inicial = "Pelotas"
+destino = "Porto Alegre"
+caminho, custo = depthFirstSearch(GRAPH, inicial, destino, 0)
+print(caminho, f"Custo: {custo}")
 def bestFirst(grafo, inicio, objetivo):
     fila = [(0, inicio, [inicio])]
     visitados = set()
