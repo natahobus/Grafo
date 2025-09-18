@@ -7,7 +7,7 @@ function bfs(grafo, inicio, objetivo) {
     let no = caminho[caminho.length - 1];
 
     if (no === objetivo) return caminho;
-
+          
     if (!visitados.has(no)) {
       visitados.add(no);
       for (let vizinho in grafo[no]) {
