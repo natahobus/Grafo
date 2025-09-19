@@ -1,5 +1,7 @@
 import heapq
+from collections import deque
 
+# ----------------- GRAFOS -----------------
 GRAPH = {
     "Pelotas": {"Camaquã": 150, "Rio Grande": 55, "Bagé": 180, "Santa Maria": 370},
     "Camaquã": {"Pelotas": 150, "Guaíba": 68, "Porto Alegre": 125},
@@ -41,7 +43,28 @@ def depth_first(grafo, inicio, objetivo, visitados=None, caminho=None, custo=0):
     caminho.pop()  # backtracking
     return [], 0, len(visitados)
 
-# ----------------- Best-First (UCS) -----------------
+# BFS 
+def breadth_first(grafo, inicio, objetivo):
+    fila = deque([(inicio, [inicio])])  # (nó atual, caminho até aqui)
+    visitados = set()
+
+    while fila:
+        no, caminho = fila.popleft()
+
+        if no in visitados:
+            continue
+        visitados.add(no)
+
+        if no == objetivo:
+            return caminho, len(caminho) - 1, len(visitados)
+
+        for vizinho in grafo[no]:
+            if vizinho not in visitados:
+                fila.append((vizinho, caminho + [vizinho]))
+
+    return [], 0, len(visitados)
+
+# Best-First 
 def best_first(grafo, inicio, objetivo):
     fila = [(0, inicio, [inicio])]
     visitados = set()
@@ -63,7 +86,7 @@ def best_first(grafo, inicio, objetivo):
 
     return [], 0, len(visitados)
 
-# ----------------- Dijkstra -----------------
+#  Dijkstra 
 def dijkstra(grafo, inicio, objetivo):
     dist = {no: float('inf') for no in grafo}
     prev = {no: None for no in grafo}
@@ -88,7 +111,6 @@ def dijkstra(grafo, inicio, objetivo):
                 prev[vizinho] = no
                 heapq.heappush(fila, (novo_custo, vizinho))
 
-    # Reconstruir caminho
     caminho, atual = [], objetivo
     while atual:
         caminho.insert(0, atual)
@@ -96,9 +118,11 @@ def dijkstra(grafo, inicio, objetivo):
 
     return caminho, dist[objetivo], len(visitados)
 
-# ----------------- Testes -----------------
-inicio, destino = "Pelotas", "Porto Alegre"
+#  TESTES 
+if __name__ == "__main__":
+    inicio, destino = "Pelotas", "Porto Alegre"
 
-print("DFS:", depth_first(GRAPH, inicio, destino))
-print("Best-First:", best_first(GRAPH2, inicio, destino))
-print("Dijkstra:", dijkstra(GRAPH, inicio, destino))
+    print("DFS:", depth_first(GRAPH, inicio, destino))
+    print("BFS:", breadth_first(GRAPH, inicio, destino))
+    print("Best-First:", best_first(GRAPH2, inicio, destino))
+    print("Dijkstra:", dijkstra(GRAPH, inicio, destino))
