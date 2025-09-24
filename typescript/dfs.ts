@@ -1,5 +1,4 @@
-type Grafo = { [cidade: string]: { [vizinho: string]: number } };
-type Resultado = { caminho: string[]; custo: number; visitados: number };
+import { Grafo, Resultado } from './types';
 
 function depthFirst(
   grafo: Grafo,
@@ -16,7 +15,7 @@ function depthFirst(
     return { caminho: [...caminho], custo, visitados: visitados.size };
   }
 
-  for (const [vizinho, peso] of Object.entries(grafo[inicio] || {})) {
+  for (const [vizinho, peso] of Object.entries(grafo[inicio] || {}) as [string, number][]) {
     if (!visitados.has(vizinho)) {
       const result = depthFirst(grafo, vizinho, objetivo, visitados, caminho, custo + peso);
       if (result.caminho.length > 0) return result;
