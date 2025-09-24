@@ -1,5 +1,4 @@
-type Grafo = { [cidade: string]: { [vizinho: string]: number } };
-type Resultado = { caminho: string[]; custo: number; visitados: number };
+import { Grafo, Resultado } from './types';
 
 function breadthFirst(grafo: Grafo, inicio: string, objetivo: string): Resultado {
   const fila: [string, string[]][] = [[inicio, [inicio]]];
